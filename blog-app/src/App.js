@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import BlogList from './components/BlogList';
-import BlogPostForm from './components/BlogPostForm';
+import BlogList from './admin/BlogList';
+import BlogPostForm from './admin/BlogPostForm';
 import Home from './components/Home';
 import Header from './components/Header';
-import About from './components/About'; // Import About component
-import News from './components/News';   // Import News component
+import About from './components/About'; 
+import News from './components/News';  
 
 const App = () => {
   const [editingPost, setEditingPost] = useState(null);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getBlogPosts, deleteBlogPost } from './../api';
+import { getBlogPosts, deleteBlogPost } from '../api';
 
 const BlogList = ({ onEdit }) => {
   const [blogPosts, setBlogPosts] = useState([]);
