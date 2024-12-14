@@ -6,7 +6,6 @@ const blogPostModel = require('../models/blogPostModel');
 
 const router = express.Router();
 
-// Ensure the uploads directory exists
 const uploadsDir = './uploads';
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
@@ -15,16 +14,16 @@ if (!fs.existsSync(uploadsDir)) {
 // Set up file upload storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, uploadsDir); // Set destination folder
+    cb(null, uploadsDir); 
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Ensure unique filenames
+    cb(null, Date.now() + path.extname(file.originalname)); 
   },
 });
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5MB
-}).single('image'); // Only allow a single file upload for 'image'
+  limits: { fileSize: 5 * 1024 * 1024 }, 
+}).single('image'); 
 
 // Fetch all blog posts
 router.get('/', async (req, res) => {
@@ -32,8 +31,8 @@ router.get('/', async (req, res) => {
     const blogPosts = await blogPostModel.getAllBlogPosts();
     res.json(blogPosts);
   } catch (err) {
-    console.error('Error fetching blog posts:', err); // Log the error
-    res.status(500).json({ error: 'Internal Server Error' }); // Return a JSON error
+    console.error('Error fetching blog posts:', err); 
+    res.status(500).json({ error: 'Internal Server Error' }); 
   }
 });
 
@@ -41,10 +40,10 @@ router.get('/', async (req, res) => {
 router.post('/', (req, res) => {
     upload(req, res, async (err) => {
       if (err instanceof multer.MulterError) {
-        console.error('Multer error:', err.message); // Multer-specific error
+        console.error('Multer error:', err.message); 
         return res.status(400).json({ error: 'File upload failed', details: err.message });
       } else if (err) {
-        console.error('Unknown error:', err.message); // Other errors
+        console.error('Unknown error:', err.message); 
         return res.status(500).json({ error: 'Internal server error', details: err.message });
       }
   
@@ -55,8 +54,8 @@ router.post('/', (req, res) => {
         const result = await blogPostModel.createBlogPost(title, content, imageUrl);
         res.status(201).json(result);
       } catch (err) {
-        console.error('Error creating blog post:', err); // Log the error
-        res.status(500).json({ error: 'Internal Server Error', details: err.message }); // Return a JSON error
+        console.error('Error creating blog post:', err); 
+        res.status(500).json({ error: 'Internal Server Error', details: err.message }); 
       }
     });
   });
@@ -66,7 +65,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
-      console.error('File upload error:', err.message); // Log the upload error
+      console.error('File upload error:', err.message); 
       return res.status(400).json({ error: 'File upload failed', details: err.message });
     }
 
@@ -78,8 +77,8 @@ router.put('/:id', (req, res) => {
       const result = await blogPostModel.updateBlogPost(id, title, content, imageUrl);
       res.json(result);
     } catch (err) {
-      console.error('Error updating blog post:', err); // Log the error
-      res.status(500).json({ error: 'Internal Server Error' }); // Return a JSON error
+      console.error('Error updating blog post:', err); 
+      res.status(500).json({ error: 'Internal Server Error' }); 
     }
   });
 });
@@ -91,8 +90,8 @@ router.delete('/:id', async (req, res) => {
     const result = await blogPostModel.deleteBlogPost(id);
     res.json(result);
   } catch (err) {
-    console.error('Error deleting blog post:', err); // Log the error
-    res.status(500).json({ error: 'Internal Server Error' }); // Return a JSON error
+    console.error('Error deleting blog post:', err); 
+    res.status(500).json({ error: 'Internal Server Error' }); 
   }
 });
 
