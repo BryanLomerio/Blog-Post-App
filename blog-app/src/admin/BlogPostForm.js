@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 import { createBlogPost, updateBlogPost } from '../api';
 
 const BlogPostForm = ({ postToEdit, onSave }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false); // For loading state
-  const [message, setMessage] = useState(''); // For success or error message
+  const [isLoading, setIsLoading] = useState(false); 
+  const [message, setMessage] = useState(''); 
 
   useEffect(() => {
     if (postToEdit) {
@@ -17,22 +18,42 @@ const BlogPostForm = ({ postToEdit, onSave }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Start loading
+    setIsLoading(true); 
 
-    try {
-      if (postToEdit) {
-        await updateBlogPost(postToEdit.id, title, content, image);
-        setMessage('Post updated successfully!');
-      } else {
-        await createBlogPost(title, content, image);
-        setMessage('Post created successfully!');
+    const result = await Swal.fire({
+      title: postToEdit ? 'Are you sure you want to update this post?' : 'Are you sure you want to create this post?',
+      text: postToEdit ? "You can update the post after saving." : "You can edit it later.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: postToEdit ? 'Yes, update it!' : 'Yes, create it!',
+    });
+
+    if (result.isConfirmed) {
+      try {
+        if (postToEdit) {
+          await updateBlogPost(postToEdit.id, title, content, image);
+          setMessage('Post updated successfully!');
+        } else {
+          await createBlogPost(title, content, image);
+          setMessage('Post created successfully!');
+        }
+
+        onSave();
+      } catch (error) {
+        setMessage('Error saving post. Please try again.');
+      } finally {
+        setIsLoading(false); 
       }
 
-      onSave();
-    } catch (error) {
-      setMessage('Error saving post. Please try again.');
-    } finally {
-      setIsLoading(false); 
+      Swal.fire(
+        postToEdit ? 'Updated!' : 'Created!',
+        postToEdit ? 'Your post has been updated.' : 'Your post has been created.',
+        'success'
+      );
+    } else {
+      setIsLoading(false);
     }
   };
 

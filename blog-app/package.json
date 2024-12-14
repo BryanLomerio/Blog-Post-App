@@ -3,13 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@radix-ui/react-slot": "^1.1.1",
+    "@shadcn/ui": "^0.0.4",
     "axios": "^1.7.9",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "cra-template": "1.2.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "lucide-react": "^0.468.0",
+    "path-browserify": "^1.0.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-router-dom": "^7.0.2",
     "react-scripts": "5.0.1",
-    "web-vitals": "^4.2.4"
+    "stream-browserify": "^3.0.0",
+    "sweetalert2": "^11.15.0",
+    "tailwind-merge": "^2.5.5",
+    "tailwindcss-animate": "^1.0.7",
+    "web-vitals": "^4.2.4",
+    "zlib-browserify": "^0.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -38,6 +49,8 @@
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.16"
+    "tailwindcss": "^3.4.16",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^5.1.4"
   }
 }

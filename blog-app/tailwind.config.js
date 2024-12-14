@@ -1,6 +1,6 @@
 module.exports = {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}", // Make sure this matches the location of your JSX files
+    './src/**/*.{js,jsx,ts,tsx}', 
   ],
   theme: {
     extend: {},
