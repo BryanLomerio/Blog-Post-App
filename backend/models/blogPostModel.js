@@ -6,7 +6,7 @@ const getAllBlogPosts = async () => {
 };
 
 const createBlogPost = async (title, content, imageUrl) => {
-  const [result] = await db.query('INSERT INTO blog_posts (title, content, image_url) VALUES (?, ?, ?)', [title, content, imageUrl]);
+  const [result] = await db.query('INSERT INTO blog_posts (title, content, image_url, remark) VALUES (?, ?, ?, ?)', [title, content, imageUrl, 1]);
   return result;
 };
 
@@ -14,9 +14,9 @@ const updateBlogPost = async (id, title, content, imageUrl) => {
   const [result] = await db.query('UPDATE blog_posts SET title = ?, content = ?, image_url = ? WHERE id = ?', [title, content, imageUrl, id]);
   return result;
 };
-
+ 0
 const deleteBlogPost = async (id) => {
-  const [result] = await db.query('DELETE FROM blog_posts WHERE id = ?', [id]);
+  const [result] = await db.query('UPDATE blog_posts SET remark = 0 WHERE id = ?', [id]);
   return result;
 };
 
