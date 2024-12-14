@@ -1,0 +1,30 @@
+.header {
+    width: 100%;
+    height: 70px;
+    background-color: red;
+    display: flex;
+    align-items: center; 
+    padding: 0 20px;
+}
+
+.header ul {
+    list-style: none; 
+    display: flex; 
+    margin: 0;
+    padding: 0;
+}
+
+.header ul li {
+    margin: 0 15px; 
+}
+
+.header ul li a {
+    color: white; 
+    font-size: 18px; 
+    text-decoration: none;
+    cursor: pointer; 
+}
+
+.header ul li a:hover {
+    text-decoration: underline; 
+}
