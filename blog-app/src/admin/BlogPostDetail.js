@@ -51,12 +51,18 @@ function BlogPostDetail() {
           className="w-full max-h-96 object-cover rounded-lg mb-6"
         />
       )}
-      <p className="text-gray-600 text-lg">{post.content}</p>
+      {/* Apply custom paragraph styles */}
+      <div className="text-gray-600 text-lg leading-relaxed space-y-4">
+        {post.content.split('\n').map((paragraph, index) => (
+          <p key={index} className="mb-4">{paragraph}</p>
+        ))}
+      </div>
       <p className="text-sm text-gray-500 mt-4 pb-20">
         Created on: {new Date(post.created_at).toLocaleDateString()}
       </p>
     </div>
   );
+  
 }
 
 export default BlogPostDetail;

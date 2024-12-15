@@ -1,30 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, NavLink } from 'react-router-dom';
 import { FaChevronDown } from 'react-icons/fa'; 
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isAdminDropdownOpen, setIsAdminDropdownOpen] = useState(false); 
   const navigate = useNavigate();  
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
-
-    if (token) {
-      const userData = {
-        username: 'Bryan',
-        profileImage: 'https://via.placeholder.com/40',
-      };
-      setUser(userData);
-    }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token'); 
     setIsLoggedIn(false);
-    setUser(null);
     navigate('/login');  
   };
 
@@ -32,59 +23,74 @@ function Header() {
     <div className="bg-[#93785B] p-4 flex justify-between items-center"> 
       <ul className="flex space-x-6">
         <li>
-          <Link to="/" className="text-white hover:text-blue-300 transition duration-300">Home</Link> 
+          <NavLink
+            to="/"
+            className={({ isActive }) => 
+              isActive ? 'text-[#3E362E]' : 'text-white hover:text-[#3E362E] transition duration-300'
+            }
+          >
+            Home
+          </NavLink> 
         </li>
         <li>
-          <Link to="/about" className="text-white hover:text-blue-300 transition duration-300">About Me</Link>
+          <NavLink
+            to="/about"
+            className={({ isActive }) => 
+              isActive ? 'text-[#3E362E]' : 'text-white hover:text-[#3E362E] transition duration-300'
+            }
+          >
+            About Me
+          </NavLink>
         </li>
         <li>
-          <Link to="/news" className="text-white hover:text-blue-300 transition duration-300">News and Articles</Link> 
+          <NavLink
+            to="/news"
+            className={({ isActive }) => 
+              isActive ? 'text-[#3E362E]' : 'text-white hover:text-[#3E362E] transition duration-300'
+            }
+          >
+            Gallery
+          </NavLink> 
         </li>
       </ul>
 
       <div className="flex items-center space-x-4">
         {isLoggedIn ? (
           <>
-
-            {user && (
-              <div className="relative flex items-center space-x-2">
-                <img
-                  src={user.profileImage}
-                  alt="Profile"
-                  className="w-10 h-10 rounded-full cursor-pointer"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}  
-                />
-                <span className="text-white font-semibold">{user.username}</span>
+            <div className="relative flex items-center">
+              <button
+                onClick={() => setIsAdminDropdownOpen(!isAdminDropdownOpen)}
+                className="bg-[#A69080] text-white px-4 py-2 rounded-md hover:bg-[#3E362E] transition duration-200 flex items-center space-x-2"
+              >
+                <span>Admin</span>
                 <FaChevronDown 
-                  className={`text-white ml-2 cursor-pointer transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} 
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}  
+                  className={`text-white transition-transform ${isAdminDropdownOpen ? 'rotate-180' : ''}`}
                 />
+              </button>
 
-                {isDropdownOpen && (
-                 <div className="absolute right-0 top-full mt-2 w-48 bg-white text-[#3E362E] rounded-lg shadow-lg p-2">
-                    <Link
-                      to="/profile"
-                      className="block px-4 py-2 text-sm hover:bg-gray-200 rounded"
-                    >
-                      Profile Settings
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-200 rounded"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-
-            <Link
-              to="/admin"
-              className="bg-[#A69080] text-white px-4 py-2 rounded-md hover:bg-[#3E362E] transition duration-200"  
-            >
-              Admin
-            </Link>
+              {isAdminDropdownOpen && (
+                <div className="absolute right-0 top-full mt-2 w-48 bg-white text-[#3E362E] rounded-lg shadow-lg p-2 z-50">
+                  <Link
+                    to="/upload-image"
+                    className="block px-4 py-2 text-sm hover:bg-gray-200 rounded"
+                  >
+                    Upload Image Gallery
+                  </Link>
+                  <Link
+                    to="/admin/blog-posts"
+                    className="block px-4 py-2 text-sm hover:bg-gray-200 rounded"
+                  >
+                    Upload Blog
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-200 rounded"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           </>
         ) : (
           <Link

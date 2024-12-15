@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api/blogposts';
 const USER_API_URL = 'http://localhost:5000/api/users'; 
+const GALLERY_API_URL = 'http://localhost:5000/api/gallery';  
 
 // Fetch all blog posts
 export const getBlogPosts = async () => {
@@ -93,3 +94,74 @@ export const loginUser = async (email, password) => {
     throw new Error('Failed to login user');
   }
 };
+
+// Upload multiple images to the gallery
+export const uploadImagesToGallery = async (images) => {
+  try {
+    const formData = new FormData();
+    images.forEach((image) => {
+      formData.append('images', image);
+    });
+
+    const response = await axios.post(`${GALLERY_API_URL}/upload-image`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error uploading images to gallery:', error);
+    throw new Error('Failed to upload images');
+  }
+};
+
+export const getGalleryImages = async () => {
+  try {
+    const response = await axios.get(`${GALLERY_API_URL}/gallery-images`);
+    console.log('Gallery images fetched:', response.data);
+
+    return response.data.map(image => ({
+      ...image,
+      imageUrl: `http://localhost:5000/${image.image_url.replace(/\\/g, '/')}`, 
+    }));
+  } catch (error) {
+    console.error('Error fetching gallery images:', error);
+    throw new Error('Failed to fetch gallery images');
+  }
+};
+
+const convertToBase64 = (arrayBuffer) => {
+  return new Promise((resolve, reject) => {
+    const blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
+    const reader = new FileReader();
+    
+    reader.onloadend = () => {
+      resolve(reader.result);
+    };
+    
+    reader.onerror = reject;
+    
+    reader.readAsDataURL(blob);
+  });
+};
+
+// Fetch gallery images
+export const fetchGalleryImages = async () => {
+  try {
+    const response = await axios.get('/api/gallery-images');
+    console.log('Gallery images fetched:', response.data);
+    return response.data; 
+  } catch (error) {
+    console.error('Error fetching gallery images:', error.message);
+    throw new Error('Failed to fetch gallery images');
+  }
+};
+
+export const deleteGalleryImage = async (imageId) => {
+  try {
+    const response = await axios.delete(`/api/gallery/delete-image/${imageId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting image:', error);
+    throw error;
+  }
+};
+
