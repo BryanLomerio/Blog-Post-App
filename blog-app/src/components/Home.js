@@ -31,24 +31,18 @@ function Home() {
           }
         });
 
-        // Update states 
         setLatestPosts(latest);
         setOlderPosts(older);
       } catch (err) {
         console.error('Error fetching blog posts:', err);
         setError('Failed to load blog posts. Please try again later.');
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
     fetchBlogPosts();
-  }, []); 
-
-  console.log('Loading state:', loading);
-  console.log('Error state:', error);
-  console.log('Latest posts state:', latestPosts);
-  console.log('Older posts state:', olderPosts);
+  }, []);
 
   if (loading) {
     return <div className="text-center text-xl font-bold mt-10">Loading...</div>;
@@ -60,33 +54,33 @@ function Home() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Latest Blog</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">Latest Blog</h1>
       {latestPosts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 justify-center">
           {latestPosts.map((post) => (
-            <div key={post.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div key={post.id} className="bg-white rounded-lg shadow-lg overflow-hidden max-w-xs mx-auto text-center">
               {post.image_url && (
                 <img
                   src={`http://localhost:5000${post.image_url}`}
                   alt={post.title}
-                  className="w-full h-48 object-cover"
-                  
+                  className="w-full h-40 object-cover"
                 />
-                
               )}
-              <div className="p-4">
-                <h3 className="font-semibold text-xl">{post.title}</h3>
-                <p className="text-gray-600 mt-2">{post.content.slice(0, 100)}...</p>
-                <p className="text-sm text-gray-500">
-                  Created on: {moment(post.created_at).format('MMM D, YYYY')}
-                </p>
-                <Link
-                  to={`/post/${post.id}`}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200 mt-4"
-                >
-                  View
-                </Link>
-              </div>
+            <div className="p-4">
+  <h3 className="font-semibold text-xl">{post.title}</h3>
+  <p className="text-gray-600 mt-2">{post.content.slice(0, 80)}...</p>
+  <p className="text-sm text-gray-500 mb-4 text-left mt-2"> 
+    Created on: {moment(post.created_at).format('MMM D, YYYY')}
+  </p>
+  <Link
+    to={`/post/${post.id}`}
+    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200 w-full"
+  >
+    Read
+  </Link>
+</div>
+
+
             </div>
           ))}
         </div>
@@ -94,32 +88,35 @@ function Home() {
         <p className="text-gray-500 italic">No recent blog posts available.</p>
       )}
 
-      <h2 className="text-2xl font-bold mt-12 mb-4">Older Blog Posts</h2>
+      <h2 className="text-2xl font-bold mt-12 mb-4 text-center">Older Blog Posts</h2>
       {olderPosts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 justify-center">
           {olderPosts.map((post) => (
-            <div key={post.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-              {post.image_url && (
-                <img
-                  src={`http://localhost:5000${post.image_url}`}
-                  alt={post.title}
-                  className="w-full h-48 object-cover"
-                />
-              )}
-              <div className="p-4">
-                <h3 className="font-semibold text-xl">{post.title}</h3>
-                <p className="text-gray-600 mt-2">{post.content.slice(0, 100)}...</p>
-                <p className="text-sm text-gray-500">
-                  Created on: {moment(post.created_at).format('MMM D, YYYY')}
-                </p>
+            <div key={post.id} className="bg-white rounded-lg shadow-lg overflow-hidden max-w-xs mx-auto text-center">
+            {post.image_url && (
+              <img
+                src={`http://localhost:5000${post.image_url}`}
+                alt={post.title}
+                className="w-full h-40 object-cover"
+              />
+            )}
+            <div className="p-4">
+              <h3 className="font-semibold text-xl">{post.title}</h3>
+              <p className="text-gray-600 mt-2">{post.content.slice(0, 80)}...</p>
+              <p className="text-sm text-gray-500 mt-4">
+                Created on: {moment(post.created_at).format('MMM D, YYYY')}
+              </p>
+              <div className="mt-4 mb-4"> {/* Added margin-bottom to create space between the button and text */}
                 <Link
                   to={`/post/${post.id}`}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200 mt-4"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200 w-full" // Ensures button takes full width
                 >
-                  View
+                  Read
                 </Link>
               </div>
             </div>
+          </div>
+          
           ))}
         </div>
       ) : (
