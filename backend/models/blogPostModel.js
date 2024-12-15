@@ -22,18 +22,10 @@ const deleteBlogPost = async (id) => {
 };
 
 
-const getBlogPostById = (id) => {
-  return new Promise((resolve, reject) => {
-    const query = 'SELECT * FROM blog_posts WHERE id = ?';
-    db.query(query, [id], (err, results) => {
-      if (err) {
-        return reject(err);
-      }
-      if (results.length === 0) {
-        return resolve(null); 
-      }
-      resolve(results[0]); 
-    });
-  });
+const getBlogPostById = async (id) => {
+  const query = 'SELECT * FROM blog_posts WHERE id = ?';
+  const [rows] = await db.execute(query, [id]);
+  return rows[0];  
 };
+
 module.exports = { getAllBlogPosts, createBlogPost, updateBlogPost, deleteBlogPost, getBlogPostById };

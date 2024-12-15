@@ -6,7 +6,14 @@ const blogPostRoutes = require('./routes/blogPostRoutes');
 
 const app = express();
 
-app.use(cors());
+// CORS setup with custom options
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));  
 
 app.use(bodyParser.json());
 

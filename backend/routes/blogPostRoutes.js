@@ -61,21 +61,23 @@ router.post('/', (req, res) => {
   });
   
 
-  // Fetch a single blog post by ID
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const blogPost = await blogPostModel.getBlogPostById(id); 
-    if (!blogPost) {
-      return res.status(404).json({ error: 'Blog post not found' });
+  router.get('/:id', async (req, res) => {
+    console.log('Received request to fetch post with ID:', req.params.id);  
+    try {
+      const post = await blogPostModel.getBlogPostById(req.params.id);
+      if (!post) {
+        console.log('Post not found');  
+        return res.status(404).send({ message: 'Post not found' });
+      }
+      console.log('Post found:', post);  
+      res.json(post);
+    } catch (err) {
+      console.error('Error fetching post details:', err);
+      res.status(500).send({ message: 'Error fetching post details' });
     }
-    res.json(blogPost);
-  } catch (err) {
-    console.error('Error fetching blog post:', err);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
+  });
+  ;
+  
 
 // Edit a blog post
 router.put('/:id', (req, res) => {

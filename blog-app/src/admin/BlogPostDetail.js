@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -7,37 +7,57 @@ function BlogPostDetail() {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const hasFetched = useRef(false);  // Ref to track 
 
   useEffect(() => {
+    if (!id || hasFetched.current) return;  // Prevent duplicate request
+  
     const fetchPost = async () => {
-        try {
-          const response = await axios.get(`http://localhost:5000/api/blogposts/${id}`);
-          console.log('Fetched post:', response.data); // Add this log to check the data
-          setPost(response.data);
-          setLoading(false);
-        } catch (error) {
-          console.error('Error fetching the post:', error);
-          setError('Failed to load blog post');
-          setLoading(false);
-        }
-      };
-      
+      console.log('Fetching post with ID:', id);
+  
+      try {
+        const response = await axios.get(`http://localhost:5000/api/blogposts/${id}`);
+        console.log('API response:', response);
+        setPost(response.data);
+        setLoading(false);
+        hasFetched.current = true;  
+      } catch (err) {
+        console.error('Error fetching post details:', err);
+        setError('Failed to load post details. Please try again later.');
+        setLoading(false);
+      }
+    };
+  
     fetchPost();
-  }, [id]);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-
+  
+    hasFetched.current = false;
+  }, [id]);  
+  
+  if (loading) {
+    return <div className="text-center text-xl font-bold mt-10">Loading...</div>;
+  }
+  
+  if (error) {
+    return <div className="text-center text-red-500 font-bold mt-10">{error}</div>;
+  }
+  
   return (
-    <div className="p-4">
-      <h1 className="text-4xl font-bold">{post.title}</h1>
-      <p className="text-gray-500 text-sm mt-2">Created on: {post.created_at}</p>
+    <div>
+      <h1 className="text-3xl font-bold mb-6">{post.title}</h1>
       {post.image_url && (
-        <img src={`http://localhost:5000${post.image_url}`} alt={post.title} className="w-full h-48 object-cover mt-4" />
+        <img
+          src={`http://localhost:5000${post.image_url}`}
+          alt={post.title}
+          className="w-full max-h-96 object-cover rounded-lg mb-6"
+        />
       )}
-      <p className="mt-4">{post.content}</p>
+      <p className="text-gray-600 text-lg">{post.content}</p>
+      <p className="text-sm text-gray-500 mt-4">
+        Created on: {new Date(post.created_at).toLocaleDateString()}
+      </p>
     </div>
   );
+  
 }
 
 export default BlogPostDetail;
