@@ -6,6 +6,7 @@ const BlogPostForm = ({ postToEdit, onSave }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
+  const [currentImageUrl, setCurrentImageUrl] = useState(''); 
   const [isLoading, setIsLoading] = useState(false); 
   const [message, setMessage] = useState(''); 
 
@@ -13,13 +14,14 @@ const BlogPostForm = ({ postToEdit, onSave }) => {
     if (postToEdit) {
       setTitle(postToEdit.title);
       setContent(postToEdit.content);
+      setCurrentImageUrl(postToEdit.image_url); 
     }
   }, [postToEdit]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true); 
-
+    setIsLoading(true);
+  
     const result = await Swal.fire({
       title: postToEdit ? 'Are you sure you want to update this post?' : 'Are you sure you want to create this post?',
       text: postToEdit ? "You can update the post after saving." : "You can edit it later.",
@@ -29,24 +31,28 @@ const BlogPostForm = ({ postToEdit, onSave }) => {
       cancelButtonColor: '#d33',
       confirmButtonText: postToEdit ? 'Yes, update it!' : 'Yes, create it!',
     });
-
+  
     if (result.isConfirmed) {
       try {
+        const newPost = { title, content, image: image || currentImageUrl }; 
+
         if (postToEdit) {
-          await updateBlogPost(postToEdit.id, title, content, image);
+          // Update post
+          await updateBlogPost(postToEdit.id, newPost.title, newPost.content, newPost.image);
           setMessage('Post updated successfully!');
         } else {
-          await createBlogPost(title, content, image);
+          // Create new post
+          await createBlogPost(newPost.title, newPost.content, newPost.image);
           setMessage('Post created successfully!');
         }
-
-        onSave();
+  
+        onSave(newPost);
       } catch (error) {
         setMessage('Error saving post. Please try again.');
       } finally {
-        setIsLoading(false); 
+        setIsLoading(false);
       }
-
+  
       Swal.fire(
         postToEdit ? 'Updated!' : 'Created!',
         postToEdit ? 'Your post has been updated.' : 'Your post has been created.',
@@ -95,6 +101,17 @@ const BlogPostForm = ({ postToEdit, onSave }) => {
       
       <div className="space-y-2">
         <label htmlFor="image" className="block text-sm font-medium text-gray-700">Image</label>
+        {postToEdit && currentImageUrl && (
+  <div className="mb-4">
+    <img
+      src={`http://localhost:5000${currentImageUrl}`} 
+      alt="Current post displayed"
+      className="w-32 h-32 object-cover mb-2"
+    />
+    <p className="text-sm text-gray-600">Current image</p>
+  </div>
+)}
+
         <input
           id="image"
           type="file"

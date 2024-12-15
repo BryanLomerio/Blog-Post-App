@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Header from './components/Header';
 import About from './components/About';
 import News from './components/News';
+import BlogPostDetail from './admin/BlogPostDetail'; 
 
 const App = () => {
   const [editingPost, setEditingPost] = useState(null);
@@ -13,28 +14,22 @@ const App = () => {
 
   const handleEdit = (post) => {
     setEditingPost(post);
-    setIsCreating(false); // Close the form if editing a post
+    setIsCreating(false); 
   };
 
   const handleSave = () => {
     setEditingPost(null);
-    setIsCreating(false); // Close the form after saving
+    setIsCreating(false); 
   };
 
   return (
     <Router>
       <Header />
       <Routes>
-        {/* Route for Home */}
         <Route path="/" element={<Home />} />
-
-        {/* Route for About */}
+        <Route path="/post/:id" element={<BlogPostDetail />} />
         <Route path="/about" element={<About />} />
-
-        {/* Route for News and Articles */}
         <Route path="/news" element={<News />} />
-
-        {/* Route for Admin Panel */}
         <Route
           path="/admin"
           element={

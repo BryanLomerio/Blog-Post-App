@@ -61,6 +61,22 @@ router.post('/', (req, res) => {
   });
   
 
+  // Fetch a single blog post by ID
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const blogPost = await blogPostModel.getBlogPostById(id); 
+    if (!blogPost) {
+      return res.status(404).json({ error: 'Blog post not found' });
+    }
+    res.json(blogPost);
+  } catch (err) {
+    console.error('Error fetching blog post:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 // Edit a blog post
 router.put('/:id', (req, res) => {
   upload(req, res, async (err) => {

@@ -1,9 +1,10 @@
 const db = require('../models/db');
 
 const getAllBlogPosts = async () => {
-  const [rows] = await db.query('SELECT * FROM blog_posts');
+  const [rows] = await db.query('SELECT * FROM blog_posts WHERE remark = 1');
   return rows;
 };
+
 
 const createBlogPost = async (title, content, imageUrl) => {
   const [result] = await db.query('INSERT INTO blog_posts (title, content, image_url, remark) VALUES (?, ?, ?, ?)', [title, content, imageUrl, 1]);
@@ -20,4 +21,19 @@ const deleteBlogPost = async (id) => {
   return result;
 };
 
-module.exports = { getAllBlogPosts, createBlogPost, updateBlogPost, deleteBlogPost };
+
+const getBlogPostById = (id) => {
+  return new Promise((resolve, reject) => {
+    const query = 'SELECT * FROM blog_posts WHERE id = ?';
+    db.query(query, [id], (err, results) => {
+      if (err) {
+        return reject(err);
+      }
+      if (results.length === 0) {
+        return resolve(null); 
+      }
+      resolve(results[0]); 
+    });
+  });
+};
+module.exports = { getAllBlogPosts, createBlogPost, updateBlogPost, deleteBlogPost, getBlogPostById };
