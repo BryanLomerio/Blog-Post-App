@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const blogPostRoutes = require('./routes/blogPostRoutes');
+const userRoutes = require('./routes/userRoutes'); 
 
 const app = express();
 
@@ -18,7 +19,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
+app.use('/api/users', userRoutes); 
 app.use('/api/blogposts', blogPostRoutes);
 
 const PORT = process.env.PORT || 5000;

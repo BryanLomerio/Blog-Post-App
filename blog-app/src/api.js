@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api/blogposts';
+const USER_API_URL = 'http://localhost:5000/api/users'; 
 
 // Fetch all blog posts
 export const getBlogPosts = async () => {
@@ -17,7 +18,7 @@ export const getBlogPosts = async () => {
 export const getBlogPostById = async (id) => {
   try {
     const response = await axios.get(`${API_URL}/${id}`);
-    console.log('API response for ID:', id, response.data); 
+    console.log('API response for ID:', id, response.data);
     return response.data;
   } catch (error) {
     console.error('Error fetching blog post by ID:', error.message || error);
@@ -68,5 +69,27 @@ export const deleteBlogPost = async (id) => {
   } catch (error) {
     console.error('Error deleting blog post:', error);
     throw new Error('Failed to delete blog post');
+  }
+};
+
+// User Registration API
+export const registerUser = async (username, email, password) => {
+  try {
+    const response = await axios.post(`${USER_API_URL}/register`, { username, email, password });
+    return response.data;
+  } catch (error) {
+    console.error('Error registering user:', error);
+    throw new Error('Failed to register user');
+  }
+};
+
+// User Login API
+export const loginUser = async (email, password) => {
+  try {
+    const response = await axios.post(`${USER_API_URL}/login`, { email, password });
+    return response.data;
+  } catch (error) {
+    console.error('Error logging in user:', error);
+    throw new Error('Failed to login user');
   }
 };

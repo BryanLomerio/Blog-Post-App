@@ -5,8 +5,9 @@ function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const user = localStorage.getItem('user'); 
-    setIsLoggedIn(user !== null); 
+    // Check if token is present in localStorage
+    const token = localStorage.getItem('token'); 
+    setIsLoggedIn(!!token);  // If token exists, user is logged in
   }, []);
 
   return (
