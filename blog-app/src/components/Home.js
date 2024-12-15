@@ -56,7 +56,7 @@ function Home() {
     <div>
       <h1 className="text-3xl font-bold mb-6 text-center mt-10">Latest Blog</h1>
       {latestPosts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 justify-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
           {latestPosts.map((post) => (
             <div
               key={post.id}
@@ -70,8 +70,8 @@ function Home() {
                 />
               )}
               <div className="p-4 relative z-10">
-                <h3 className="font-semibold text-xl">{post.title}</h3>
-                <p className="text-white mt-2">
+                <h3 className=" text-[#3E362E] font-semibold text-xl">{post.title}</h3>
+                <p className="text-[#CDC5BD] mt-2">
                   {post.content.length > 100 ? `${post.content.slice(0, 100)}...` : post.content}
                 </p>
                 <p className="text-sm text-white mb-4 text-left mt-2">
@@ -95,7 +95,7 @@ function Home() {
 
       <h2 className="text-2xl font-bold mt-12 mb-4 text-center">Older Blog Posts</h2>
       {olderPosts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 justify-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
           {olderPosts.map((post) => (
             <div
               key={post.id}
@@ -110,7 +110,7 @@ function Home() {
               )}
               <div className="p-4 relative z-10">
                 <h3 className="font-semibold text-xl">{post.title}</h3>
-                <p className="text-white mt-2">
+                <p className="text-[##CDC5BD] mt-2">
                   {post.content.slice(0, 80)}...
                 </p>
                 <p className="text-sm text-white mt-4">
