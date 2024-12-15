@@ -10,17 +10,19 @@ const BlogList = () => {
   const [postsLimit] = useState(6);
   const [isSubmitting, setIsSubmitting] = useState(false); 
 
+  // Function to fetch blog posts
+  const fetchBlogPosts = async () => {
+    try {
+      const posts = await getBlogPosts();
+      setBlogPosts(posts || []); 
+    } catch (error) {
+      console.error('Failed to fetch blog posts', error);
+      setBlogPosts([]);  
+    }
+  };
+
   useEffect(() => {
-    const fetchBlogPosts = async () => {
-      try {
-        const posts = await getBlogPosts();
-        setBlogPosts(posts || []); 
-      } catch (error) {
-        console.error('Failed to fetch blog posts', error);
-        setBlogPosts([]);  
-      }
-    };
-    fetchBlogPosts();
+    fetchBlogPosts(); 
   }, []);
   
 
@@ -34,11 +36,16 @@ const BlogList = () => {
       cancelButtonColor: '#3085d6',
       confirmButtonText: 'Yes, delete it!',
     });
-
+  
     if (result.isConfirmed) {
-      await deleteBlogPost(postId);
-      setBlogPosts(blogPosts.filter(post => post.id !== postId));
-      Swal.fire('Deleted!', 'Your post has been deleted.', 'success');
+      try {
+        await deleteBlogPost(postId);
+        await fetchBlogPosts(); 
+        Swal.fire('Deleted!', 'Your post has been deleted.', 'success');
+      } catch (error) {
+        console.error('Failed to delete the post:', error);
+        Swal.fire('Error!', 'Could not delete the post. Please try again.', 'error');
+      }
     }
   };
 
@@ -53,22 +60,31 @@ const BlogList = () => {
   };
 
   const handleSave = async (newPost) => {
-    if (isSubmitting) return;
+    if (isSubmitting) return; 
+    
     setIsSubmitting(true); 
+    
+    try {
 
-    if (postToEdit) {
-      await updateBlogPost(postToEdit.id, newPost.title, newPost.content, newPost.image);
-      setBlogPosts(blogPosts.map(post => (post.id === postToEdit.id ? { ...post, ...newPost } : post)));
-      Swal.fire('Updated!', 'Your post has been updated.', 'success');
-    } else {
-      const createdPost = await createBlogPost(newPost.title, newPost.content, newPost.image);
-      setBlogPosts([createdPost, ...blogPosts]);
-      Swal.fire('Created!', 'Your post has been created.', 'success');
+      if (postToEdit) {
+        await updateBlogPost(postToEdit.id, newPost.title, newPost.content, newPost.image);
+        Swal.fire('Updated!', 'Your post has been updated.', 'success');
+      } else {
+        await createBlogPost(newPost.title, newPost.content, newPost.image); 
+        Swal.fire('Created!', 'Your post has been created.', 'success');
+      }
+  
+      await fetchBlogPosts();
+
+      handleBackToAdmin();
+    } catch (error) {
+      console.error('Failed to save the post:', error);
+      Swal.fire('Error!', 'Something went wrong. Please try again.', 'error');
+    } finally {
+      setIsSubmitting(false); 
     }
-
-    setIsSubmitting(false); 
   };
-
+  
   const handleBackToAdmin = () => {
     setIsCreating(false);
     setPostToEdit(null); 
@@ -77,20 +93,20 @@ const BlogList = () => {
   return (
     <div className="flex justify-center items-center py-8">
       <div className="w-full max-w-4xl px-4">
-        {!isCreating && (
-          <>
-            <h2 className="text-2xl font-bold mb-4">Blog Posts</h2>
-            <div className="mb-4">
-              <button
-                onClick={handleCreateNewBlog}
-                className=" bg-[#A69080] px-4 py-1.5 text-sm border text-white rounded-lg hover:bg-[#3E362E] hover:text-white transition duration-200"
-              >
-                Create New Blog
-              </button>
-            </div>
-
-                      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.isArray(blogPosts) && blogPosts.slice(0, postsLimit).map(post => (
+      {!isCreating && (
+  <>
+    <h2 className="text-2xl font-bold mb-4">Blog Posts</h2>
+    <div className="mb-4">
+      <button
+        onClick={handleCreateNewBlog}
+        className=" bg-[#A69080] px-4 py-1.5 text-sm border text-white rounded-lg hover:bg-[#3E362E] hover:text-white transition duration-200"
+      >
+        Create New Blog
+      </button>
+    </div>
+    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {Array.isArray(blogPosts) &&
+        blogPosts.slice(0, postsLimit).map((post) => (
             <li
             key={post.id}
             className="bg-[#865D36] bg-opacity-50 text-white rounded-lg shadow-lg overflow-hidden relative transition duration-300 hover:bg-opacity-80 hover:backdrop-blur-lg hover:bg-[#865D36]/60"
@@ -126,9 +142,9 @@ const BlogList = () => {
           </li>
           
             ))}
-          </ul>
 
-          </>
+    </ul>
+  </>
         )}
 
         {(isCreating || postToEdit) && (

@@ -20,7 +20,9 @@ const BlogPostForm = ({ postToEdit, onSave }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    if (isLoading) return; 
+    
+    setIsLoading(true); 
   
     const result = await Swal.fire({
       title: postToEdit ? 'Are you sure you want to update this post?' : 'Are you sure you want to create this post?',
@@ -34,8 +36,7 @@ const BlogPostForm = ({ postToEdit, onSave }) => {
   
     if (result.isConfirmed) {
       try {
-        const newPost = { title, content, image: image || currentImageUrl }; 
-
+        const newPost = { title, content, image: image || currentImageUrl };
         if (postToEdit) {
           // Update post
           await updateBlogPost(postToEdit.id, newPost.title, newPost.content, newPost.image);
@@ -45,24 +46,18 @@ const BlogPostForm = ({ postToEdit, onSave }) => {
           await createBlogPost(newPost.title, newPost.content, newPost.image);
           setMessage('Post created successfully!');
         }
-  
         onSave(newPost);
       } catch (error) {
-        setMessage('Error saving post. Please try again.');
+        setMessage(error.message || 'Error saving post. Please try again.');
       } finally {
         setIsLoading(false);
       }
-  
-      Swal.fire(
-        postToEdit ? 'Updated!' : 'Created!',
-        postToEdit ? 'Your post has been updated.' : 'Your post has been created.',
-        'success'
-      );
     } else {
       setIsLoading(false);
     }
   };
-
+  
+  
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white shadow-md rounded-lg p-6 space-y-4">
       <h2 className="text-2xl font-bold text-gray-800">{postToEdit ? 'Edit Post' : 'Create Post'}</h2>

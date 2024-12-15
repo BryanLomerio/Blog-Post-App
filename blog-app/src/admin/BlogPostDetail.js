@@ -10,7 +10,7 @@ function BlogPostDetail() {
   const hasFetched = useRef(false);  
 
   useEffect(() => {
-    if (!id || hasFetched.current) return;  // Prevent duplicate request
+    if (!id || hasFetched.current) return;  
 
     const fetchPost = async () => {
       console.log('Fetching post with ID:', id);
