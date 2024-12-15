@@ -12,9 +12,7 @@ function Home() {
   useEffect(() => {
     const fetchBlogPosts = async () => {
       try {
-        console.log('Fetching blog posts...');
         const response = await axios.get('http://localhost:5000/api/blogposts');
-        console.log('API response data:', response.data);
         const posts = response.data;
         const currentDate = moment();
         const latest = [];
@@ -34,7 +32,6 @@ function Home() {
         setLatestPosts(latest);
         setOlderPosts(older);
       } catch (err) {
-        console.error('Error fetching blog posts:', err);
         setError('Failed to load blog posts. Please try again later.');
       } finally {
         setLoading(false);
@@ -61,7 +58,7 @@ function Home() {
             {latestPosts.map((post) => (
               <div
                 key={post.id}
-                className="bg-[#865D36] bg-opacity-50 text-white rounded-lg shadow-lg overflow-hidden max-w-xs mx-auto text-center relative group"
+                className="relative bg-[#865D36] bg-opacity-50 text-white rounded-lg shadow-lg overflow-hidden max-w-xs mx-auto text-center group"
               >
                 {post.image_url && (
                   <img
@@ -75,18 +72,22 @@ function Home() {
                   <p className="text-[#CDC5BD] mt-2">
                     {post.content.length > 100 ? `${post.content.slice(0, 100)}...` : post.content}
                   </p>
-                  <p className="text-sm text-white mb-4 text-left mt-2">
-                    Created on: {moment(post.created_at).format('MMM D, YYYY')}
-                  </p>
-                  <Link
-                    to={`/post/${post.id}`}
-                    className="bg-[#A69080] text-white px-4 py-2 rounded-md hover:bg-[#3E362E] transition duration-200 w-full"
-                  >
-                    Read
-                  </Link>
+                  <div className="mt-4 mb-2">
+                    <Link
+                      to={`/post/${post.id}`}
+                      className="bg-[#A69080] text-white px-4 py-2 rounded-md hover:bg-[#3E362E] transition duration-200 w-full"
+                    >
+                      Read
+                    </Link>
+                  </div>
                 </div>
-
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 z-0"></div>
+                <div className="bottom-0 flex justify-between items-center mt-4 px-3 py-2">
+                  <div className="flex-1">
+                    <p className="bottom-0 text-sm text-[#CDC5BD] bg-[#3E362E] bg-opacity-80 px-2 py-1 rounded-tr-md">
+                      Created on: {moment(post.created_at).format('MMM D, YYYY')}
+                    </p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -100,7 +101,7 @@ function Home() {
             {olderPosts.map((post) => (
               <div
                 key={post.id}
-                className="bg-[#865D36] bg-opacity-50 text-white rounded-lg shadow-lg overflow-hidden max-w-xs mx-auto text-center relative group"
+                className="relative bg-[#865D36] bg-opacity-50 text-white rounded-lg shadow-lg overflow-hidden max-w-xs mx-auto text-center group"
               >
                 {post.image_url && (
                   <img
@@ -110,14 +111,11 @@ function Home() {
                   />
                 )}
                 <div className="p-3 relative z-10">
-                  <h3 className="font-semibold text-lg">{post.title}</h3>
+                  <h3 className="text-[#3E362E] font-semibold text-lg">{post.title}</h3>
                   <p className="text-[#CDC5BD] mt-2">
-                    {post.content.length > 80 ? `${post.content.slice(0, 80)}...` : post.content}
+                    {post.content.length > 100 ? `${post.content.slice(0, 100)}...` : post.content}
                   </p>
-                  <p className="text-sm text-white mt-4">
-                    Created on: {moment(post.created_at).format('MMM D, YYYY')}
-                  </p>
-                  <div className="mt-4 mb-4">
+                  <div className="mt-4 mb-2">
                     <Link
                       to={`/post/${post.id}`}
                       className="bg-[#A69080] text-white px-4 py-2 rounded-md hover:bg-[#3E362E] transition duration-200 w-full"
@@ -126,7 +124,14 @@ function Home() {
                     </Link>
                   </div>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 z-0"></div>
+
+              <div className="relative bottom-0 left-0 w-full bg-[#3E362E] bg-opacity-80 px-2 py-1 rounded-tr-md">
+                  <div className="flex-1">
+                    <p className="bottom-0 text-sm text-[#CDC5BD] bg-[#3E362E] bg-opacity-80 px-2 py-1 rounded-tr-md">
+                      Created on: {moment(post.created_at).format('MMM D, YYYY')}
+                    </p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

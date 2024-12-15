@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, NavLink } from 'react-router-dom';
 import { FaChevronDown } from 'react-icons/fa'; 
+import { IoIosLogOut } from 'react-icons/io'; 
+import { FaCloudUploadAlt } from 'react-icons/fa'; 
+import { ImBlog } from 'react-icons/im'; 
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAdminDropdownOpen, setIsAdminDropdownOpen] = useState(false); 
   const navigate = useNavigate();  
 
@@ -56,42 +58,43 @@ function Header() {
 
       <div className="flex items-center space-x-4">
         {isLoggedIn ? (
-          <>
-            <div className="relative flex items-center">
-              <button
-                onClick={() => setIsAdminDropdownOpen(!isAdminDropdownOpen)}
-                className="bg-[#A69080] text-white px-4 py-2 rounded-md hover:bg-[#3E362E] transition duration-200 flex items-center space-x-2"
-              >
-                <span>Admin</span>
-                <FaChevronDown 
-                  className={`text-white transition-transform ${isAdminDropdownOpen ? 'rotate-180' : ''}`}
-                />
-              </button>
+          <div className="relative flex items-center">
+            <button
+              onClick={() => setIsAdminDropdownOpen(!isAdminDropdownOpen)}
+              className="bg-[#A69080] text-white px-4 py-2 rounded-md hover:bg-[#3E362E] transition duration-200 flex items-center space-x-2"
+            >
+              <span>Manage</span>
+              <FaChevronDown 
+                className={`text-white transition-transform ${isAdminDropdownOpen ? 'rotate-180' : ''}`}
+              />
+            </button>
 
-              {isAdminDropdownOpen && (
-                <div className="absolute right-0 top-full mt-2 w-48 bg-white text-[#3E362E] rounded-lg shadow-lg p-2 z-50">
-                  <Link
-                    to="/upload-image"
-                    className="block px-4 py-2 text-sm hover:bg-gray-200 rounded"
-                  >
-                    Upload Image Gallery
-                  </Link>
-                  <Link
-                    to="/admin/blog-posts"
-                    className="block px-4 py-2 text-sm hover:bg-gray-200 rounded"
-                  >
-                    Upload Blog
-                  </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-200 rounded"
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
-            </div>
-          </>
+            {isAdminDropdownOpen && (
+              <div className="absolute right-0 top-full mt-2 w-48 bg-white text-[#3E362E] rounded-lg shadow-lg p-2 z-50">
+                <Link
+                  to="/upload-image"
+                  className="flex items-center px-4 py-2 text-sm hover:bg-gray-200 rounded space-x-2"
+                >
+                  <FaCloudUploadAlt className="text-gray-500" />
+                  <span>Gallery Upload</span>
+                </Link>
+                <Link
+                  to="/admin/blog-posts"
+                  className="flex items-center px-4 py-2 text-sm hover:bg-gray-200 rounded space-x-2"
+                >
+                  <ImBlog className="text-gray-500" />
+                  <span>Blog Upload</span>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center w-full text-left px-4 py-2 text-sm hover:bg-gray-200 rounded space-x-2"
+                >
+                  <IoIosLogOut className="text-red-500" />
+                  <span>Sign Out </span>
+                </button>
+              </div>
+            )}
+          </div>
         ) : (
           <Link
             to="/login"
