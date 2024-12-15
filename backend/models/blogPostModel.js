@@ -28,4 +28,5 @@ const getBlogPostById = async (id) => {
   return rows[0];  
 };
 
+
 module.exports = { getAllBlogPosts, createBlogPost, updateBlogPost, deleteBlogPost, getBlogPostById };

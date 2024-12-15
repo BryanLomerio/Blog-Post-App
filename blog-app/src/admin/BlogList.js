@@ -83,52 +83,57 @@ const BlogList = () => {
             <div className="mb-4">
               <button
                 onClick={handleCreateNewBlog}
-                className="px-4 py-1.5 text-sm border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition duration-200"
+                className=" bg-[#A69080] px-4 py-1.5 text-sm border text-white rounded-lg hover:bg-[#3E362E] hover:text-white transition duration-200"
               >
                 Create New Blog
               </button>
             </div>
 
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.isArray(blogPosts) && blogPosts.slice(0, postsLimit).map(post => (
-  <li key={post.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-    {post.image_url && (
-      <img 
-        src={`http://localhost:5000${post.image_url}`} 
-        alt="Blog post" 
-        className="w-full h-48 object-cover" 
-      />
-    )}
-    <div className="p-4">
-      <h3 className="font-semibold text-xl">{post.title}</h3>
-      <p className="text-gray-600 mt-2">
-        {post.content.length > 100 ? `${post.content.slice(0, 100)}...` : post.content}
-      </p>
-      <div className="mt-4 flex space-x-2">
-        <button
-          onClick={() => handleEditBlog(post)}
-          className="bg-blue-500 text-white px-3 py-1 text-sm rounded-md hover:bg-blue-600 transition duration-200"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => handleDelete(post.id)}
-          className="bg-red-500 text-white px-3 py-1 text-sm rounded-md hover:bg-red-600 transition duration-200"
-        >
-          Delete
-        </button>
-      </div>
-    </div>
-  </li>
-))}
+            <li
+            key={post.id}
+            className="bg-[#865D36] bg-opacity-50 text-white rounded-lg shadow-lg overflow-hidden relative transition duration-300 hover:bg-opacity-80 hover:backdrop-blur-lg hover:bg-[#865D36]/60"
+          >
+            {post.image_url && (
+              <img
+                src={`http://localhost:5000${post.image_url}`}
+                alt="Blog post"
+                className="w-full h-48 object-cover"
+              />
+            )}
+            <div className="p-4 relative z-10">
+              <h3 className="font-semibold text-xl">{post.title}</h3>
+              <p className="text-white mt-2">
+                {post.content.length > 100 ? `${post.content.slice(0, 100)}...` : post.content}
+              </p>
+              <div className="mt-4 flex space-x-2">
+                <button
+                  onClick={() => handleEditBlog(post)}
+                  className="bg-[#A69080] text-white px-3 py-1 text-sm rounded-md hover:bg-[#3E362E] transition duration-200"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(post.id)}
+                  className="bg-[#A69080] text-white px-3 py-1 text-sm rounded-md hover:bg-[#3E362E] transition duration-200"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 hover:opacity-100 transition-all duration-300"></div>
+          </li>
+          
+            ))}
+          </ul>
 
-            </ul>
           </>
         )}
 
         {(isCreating || postToEdit) && (
           <div className="mt-8">
-            <h2 className="text-2xl font-bold mb-4">{postToEdit ? 'Edit Post' : 'Create a New Blog'}</h2>
+            <h2 className="text-2xl font-bold mb-4 bg-[#A69080]">{postToEdit ? 'Edit Post' : 'Create a New Blog'}</h2>
             <BlogPostForm postToEdit={postToEdit} onSave={handleSave} />
  
             <button
