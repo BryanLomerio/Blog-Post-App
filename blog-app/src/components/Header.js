@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, NavLink } from 'react-router-dom';
 import { FaChevronDown } from 'react-icons/fa';
 import { IoIosLogOut } from 'react-icons/io';
@@ -9,6 +9,7 @@ function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdminDropdownOpen, setIsAdminDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -21,10 +22,25 @@ function Header() {
     navigate('/login');
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsAdminDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <header className="bg-[#4A403A] p-5 shadow-lg">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        {/* Navigation Links */}
+
         <nav>
           <ul className="flex space-x-8">
             {[
@@ -48,10 +64,9 @@ function Header() {
           </ul>
         </nav>
 
-        {/* User Actions */}
         <div className="flex items-center space-x-6">
           {isLoggedIn ? (
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsAdminDropdownOpen(!isAdminDropdownOpen)}
                 className="bg-[#7A6F64] text-white px-4 py-2 rounded-md flex items-center space-x-2 hover:bg-[#635A51] transition duration-300"
