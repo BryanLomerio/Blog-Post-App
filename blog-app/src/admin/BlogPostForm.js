@@ -47,7 +47,7 @@ const BlogPostForm = ({ postToEdit, onSave }) => {
           id="content"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="w-full px-4 py-2 border rounded-md"
+          className="w-full px-4 py-4 border rounded-md resize-y h-60"
           required
         />
       </div>
