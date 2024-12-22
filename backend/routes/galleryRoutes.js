@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { saveImage, getAllImages } = require('../models/galleryImage'); 
+const { saveImage, getAllImages } = require('../models/galleryImage');
 const router = express.Router();
 
 const dir = 'uploads/gallery';
@@ -12,10 +12,10 @@ if (!fs.existsSync(dir)) {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, dir); 
+    cb(null, dir);
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); 
+    cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 
@@ -28,10 +28,9 @@ router.post('/upload-image', upload.array('images'), async (req, res) => {
       return res.status(400).json({ message: 'No images uploaded' });
     }
 
-    
     const uploadedImages = await Promise.all(
       req.files.map(file => {
-        return saveImage(file.path); 
+        return saveImage(file.path);
       })
     );
 
@@ -42,16 +41,15 @@ router.post('/upload-image', upload.array('images'), async (req, res) => {
   }
 });
 
-
 router.get('/gallery-images', async (req, res) => {
   try {
     const images = await getAllImages();
     const formattedImages = images.map(image => ({
-        id: image.id,
-        image_url: image.image_url
-      }));
-      
-    res.json(formattedImages); 
+      id: image.id,
+      image_url: image.image_url
+    }));
+
+    res.json(formattedImages);
   } catch (error) {
     console.error('Failed to fetch gallery images:', error.message || error);
     res.status(500).json({
@@ -61,54 +59,22 @@ router.get('/gallery-images', async (req, res) => {
   }
 });
 
-  
-const deleteImage = async (id) => {
+router.delete('/delete-image/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
     const query = 'DELETE FROM gallery_images WHERE id = ?';
-    try {
-      const [result] = await db.execute(query, [id]);
-      return result.affectedRows > 0;
-    } catch (error) {
-      console.error('Error deleting image:', error);
-      throw error;
+    const [result] = await db.execute(query, [id]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Image not found' });
     }
-  };
-  
-  router.delete('/delete-image/:id', async (req, res) => {
-    const { id } = req.params;
-  
-    try {
-      const query = 'DELETE FROM gallery_images WHERE id = ?';
-      const [result] = await db.execute(query, [id]);
-  
-      if (result.affectedRows === 0) {
-        return res.status(404).json({ message: 'Image not found' });
-      }
-  
-      res.json({ message: 'Image deleted successfully' });
-    } catch (error) {
-      console.error('Error deleting image:', error);
-      res.status(500).json({ message: 'Failed to delete image' });
-    }
-  });
-  
-  
-  app.delete('/api/gallery/delete-image/:id', async (req, res) => {
-    const { id } = req.params;
-  
-    if (!id) {
-      return res.status(400).json({ error: 'Image ID is required' });
-    }
-  
-    try {
-      const result = await ImageModel.findByIdAndDelete(id); 
-      if (!result) {
-        return res.status(404).json({ error: 'Image not found' });
-      }
-      res.status(200).json({ message: 'Image deleted successfully' });
-    } catch (err) {
-      res.status(500).json({ error: 'Failed to delete image' });
-    }
-  });
-  
+
+    res.json({ message: 'Image deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting image:', error);
+    res.status(500).json({ message: 'Failed to delete image' });
+  }
+});
 
 module.exports = router;

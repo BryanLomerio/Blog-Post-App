@@ -125,7 +125,7 @@ function Home() {
                   </div>
                 </div>
 
-              <div className="relative bottom-0 left-0 w-full bg-[#3E362E] bg-opacity-80 px-2 py-1 rounded-tr-md">
+                <div className="relative bottom-0 left-0 w-full bg-[#3E362E] bg-opacity-80 px-2 py-1 rounded-tr-md">
                   <div className="flex-1">
                     <p className="bottom-0 text-sm text-[#CDC5BD] bg-[#3E362E] bg-opacity-80 px-2 py-1 rounded-tr-md">
                       Created on: {moment(post.created_at).format('MMM D, YYYY')}
