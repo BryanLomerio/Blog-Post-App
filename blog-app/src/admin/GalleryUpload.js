@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { uploadImagesToGallery, getGalleryImages, deleteGalleryImage } from '../api';
+import { uploadImagesToGallery, getGalleryImages, deleteGalleryImage } from '../api/api';
 import { FaTrashAlt } from 'react-icons/fa'; 
 
 const GalleryUpload = () => {

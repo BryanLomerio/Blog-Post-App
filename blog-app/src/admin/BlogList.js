@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { getBlogPosts, deleteBlogPost, createBlogPost, updateBlogPost } from '../api';
+import { getBlogPosts, deleteBlogPost, createBlogPost, updateBlogPost } from '../api/api';
 import BlogPostForm from './BlogPostForm';
 
 const BlogList = () => {
@@ -9,15 +9,18 @@ const BlogList = () => {
   const [postToEdit, setPostToEdit] = useState(null);
   const [postsLimit] = useState(6);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch blog posts
   const fetchBlogPosts = async () => {
+    setIsLoading(true);
     try {
       const posts = await getBlogPosts();
       setBlogPosts(posts || []);
     } catch (error) {
-      console.error('Failed to fetch blog posts', error);
+      console.error('Failed to fetch blog posts:', error);
       setBlogPosts([]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -25,11 +28,10 @@ const BlogList = () => {
     fetchBlogPosts();
   }, []);
 
-  // Handle delete post
   const handleDelete = async (postId) => {
     const result = await Swal.fire({
       title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      text: 'This action cannot be undone.',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
@@ -41,7 +43,7 @@ const BlogList = () => {
       try {
         await deleteBlogPost(postId);
         await fetchBlogPosts();
-        Swal.fire('Deleted!', 'Your post has been deleted.', 'success');
+        Swal.fire('Deleted!', 'The post has been deleted.', 'success');
       } catch (error) {
         console.error('Failed to delete the post:', error);
         Swal.fire('Error!', 'Could not delete the post. Please try again.', 'error');
@@ -90,67 +92,75 @@ const BlogList = () => {
 
   return (
     <div className="flex justify-center items-center py-8">
-      <div className="w-full max-w-4xl px-4">
+      <div className="w-full max-w-5xl px-4">
         {!isCreating && (
           <>
-            <h2 className="text-2xl font-bold mb-4">Blog Posts</h2>
-            <div className="mb-4">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-800">Blog Posts</h2>
               <button
                 onClick={handleCreateNewBlog}
-                className="bg-[#A69080] px-4 py-1.5 text-sm border text-white rounded-lg hover:bg-[#3E362E] hover:text-white transition duration-200"
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
               >
                 Create New Blog
               </button>
             </div>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {Array.isArray(blogPosts) &&
-                blogPosts.slice(0, postsLimit).map((post) => (
-                  <li
-                    key={post.id}
-                    className="bg-[#865D36] bg-opacity-50 text-white rounded-lg shadow-lg overflow-hidden relative transition duration-300 hover:bg-opacity-80 hover:backdrop-blur-lg hover:bg-[#865D36]/60"
-                  >
-                    <img
-                      src={post.image_url ? `http://localhost:5000${post.image_url}` : '/path/to/default-image.jpg'}
-                      alt="Blog post"
-                      className="w-full h-40 object-cover"
-                    />
-                    <div className="p-3 relative z-10">
-                      <h3 className="text-[#3E362E] font-semibold text-lg">{post.title}</h3>
-                      <div className="mt-2 flex space-x-2">
-                        <button
-                          onClick={() => handleEditBlog(post)}
-                          className="bg-[#A69080] text-white px-3 py-1 text-sm rounded-md hover:bg-[#3E362E] transition duration-200"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDelete(post.id)}
-                          className="bg-[#A69080] text-white px-3 py-1 text-sm rounded-md hover:bg-[#3E362E] transition duration-200"
-                        >
-                          Delete
-                        </button>
+
+            {isLoading ? (
+              <p className="text-center text-gray-600">Loading posts...</p>
+            ) : (
+              <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array.isArray(blogPosts) &&
+                  blogPosts.slice(0, postsLimit).map((post) => (
+                    <li
+                      key={post.id}
+                      className="bg-white rounded-lg shadow hover:shadow-lg overflow-hidden border border-gray-200 transition duration-300"
+                    >
+                      <img
+                        src={post.image_url ? `http://localhost:5000${post.image_url}` : '/path/to/default-image.jpg'}
+                        alt="Blog post"
+                        className="w-full h-48 object-cover"
+                      />
+                      <div className="p-4">
+                        <h3 className="text-lg font-semibold text-gray-800">{post.title}</h3>
+                        <div className="mt-3 flex justify-between">
+                          <button
+                            onClick={() => handleEditBlog(post)}
+                            className="bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600 transition"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDelete(post.id)}
+                            className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 hover:opacity-100 transition-all duration-300"></div>
-                  </li>
-                ))}
-            </ul>
+                    </li>
+                  ))}
+              </ul>
+            )}
           </>
         )}
 
-        {(isCreating || postToEdit) && (
-          <div className="mt-8">
-            <h2 className="text-2xl font-bold mb-4 bg-[#A69080]">{postToEdit ? 'Edit Post' : 'Create a New Blog'}</h2>
-            <BlogPostForm postToEdit={postToEdit} onSave={handleSave} />
+{(isCreating || postToEdit) && (
+  <>
+    <div className="flex justify-between items-center mb-4">
+      <button
+        onClick={handleBackToAdmin}
+        className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+      >
+        Back to Admin
+      </button>
+      <h2 className="text-2xl font-bold text-gray-800 mx-auto">
+        {postToEdit ? 'Edit Post' : 'Create a New Blog'}
+      </h2>
+    </div>
+    <BlogPostForm postToEdit={postToEdit} onSave={handleSave} />
+  </>
+)}
 
-            <button
-              onClick={handleBackToAdmin}
-              className="mt-4 px-4 py-2 text-sm border border-gray-500 text-gray-500 rounded-lg hover:bg-gray-500 hover:text-white transition duration-200"
-            >
-              Back to Admin
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );
