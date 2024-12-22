@@ -8,7 +8,6 @@ import { ImBlog } from 'react-icons/im';
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdminDropdownOpen, setIsAdminDropdownOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
@@ -24,10 +23,8 @@ function Header() {
   };
 
   const handleNavigation = (path) => {
-    setIsLoading(true);
     setIsAdminDropdownOpen(false);
     navigate(path);
-    setTimeout(() => setIsLoading(false), 500);
   };
 
   useEffect(() => {
@@ -51,7 +48,7 @@ function Header() {
 
         <nav>
           <ul className="flex space-x-8">
-            {[
+            {[ 
               { name: 'Home', path: '/' },
               { name: 'About Me', path: '/about' },
               { name: 'Gallery', path: '/news' },
@@ -81,8 +78,7 @@ function Header() {
               >
                 <span>Manage</span>
                 <FaChevronDown
-                  className={`text-white transform transition-transform ${isAdminDropdownOpen ? 'rotate-180' : ''
-                    }`}
+                  className={`text-white transform transition-transform ${isAdminDropdownOpen ? 'rotate-180' : ''}`}
                 />
               </button>
 
@@ -101,7 +97,7 @@ function Header() {
                     className="flex items-center w-full px-4 py-3 text-sm hover:bg-gray-100 transition-colors space-x-2"
                   >
                     <ImBlog className="text-gray-500" />
-                    <span>Blog Upload</span>
+                    <span>Manage Blog</span>
                   </button>
                   <button
                     onClick={handleLogout}
@@ -123,12 +119,6 @@ function Header() {
           )}
         </div>
       </div>
-
-      {isLoading && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-white"></div>
-        </div>
-      )}
     </header>
   );
 }

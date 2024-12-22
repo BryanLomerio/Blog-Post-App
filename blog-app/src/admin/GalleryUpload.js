@@ -35,10 +35,8 @@ const GalleryUpload = () => {
     });
   
     try {
-      // Upload the images to the server
       await uploadImagesToGallery(newImages);
   
-      // Fetch the updated gallery images after successful upload
       fetchGalleryImages();
       setNewImages([]);
       Swal.fire('Success!', 'Images uploaded successfully.', 'success');
@@ -49,7 +47,7 @@ const GalleryUpload = () => {
   };
   
   const handleDeleteImage = async (imageId) => {
-    console.log('Deleting image with ID:', imageId); // Debugging
+    console.log('Deleting image with ID:', imageId); 
     try {
       const result = await Swal.fire({
         title: 'Are you sure?',
@@ -62,7 +60,7 @@ const GalleryUpload = () => {
       });
   
       if (result.isConfirmed) {
-        await deleteGalleryImage(imageId);
+        await deleteGalleryImage(imageId); 
         fetchGalleryImages();
         Swal.fire('Deleted!', 'Image deleted successfully.', 'success');
       }
@@ -71,6 +69,7 @@ const GalleryUpload = () => {
       Swal.fire('Error!', 'Failed to delete the image. Please try again.', 'error');
     }
   };
+  
 
   useEffect(() => {
     fetchGalleryImages();  
@@ -98,21 +97,22 @@ const GalleryUpload = () => {
 
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">  
         {galleryImages.map((image, index) => (
-          <div key={index} className="border p-2 rounded-lg relative flex justify-center items-center">  
-            <img
-              src={image.imageUrl}  
-              alt={`Image ${index + 1}`}
-              className="w-32 h-32 object-cover rounded-md"  
-            />
-            <div className="absolute top-2 right-2">
-              <button
-                onClick={() => handleDeleteImage(image.id)}
-                className="text-red-600 hover:text-red-800"
-              >
-                <FaTrashAlt size={16} /> 
-              </button>
-            </div>
-          </div>
+        <div key={index} className="border p-2 rounded-lg relative flex justify-center items-center">
+        <img
+          src={image.imageUrl} 
+          alt={`Image ${index + 1}`}
+          className="w-32 h-32 object-cover rounded-md"
+        />
+        <div className="absolute top-2 right-2">
+          <button
+            onClick={() => handleDeleteImage(image.id)}
+            className="text-red-600 hover:text-red-800"
+          >
+            <FaTrashAlt size={16} />
+          </button>
+        </div>
+      </div>
+      
         ))}
       </div>
     </div>

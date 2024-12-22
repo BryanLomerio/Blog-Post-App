@@ -120,13 +120,18 @@ export const getGalleryImages = async () => {
 
     return response.data.map(image => ({
       ...image,
-      imageUrl: `http://localhost:5000/${image.image_url.replace(/\\/g, '/')}`, 
+      imageUrl: `http://localhost:5000/${image.image_url.replace(/\\/g, '/').replace('uploads/', 'uploads/')}`
     }));
   } catch (error) {
     console.error('Error fetching gallery images:', error);
     throw new Error('Failed to fetch gallery images');
   }
 };
+;
+
+
+
+
 
 const convertToBase64 = (arrayBuffer) => {
   return new Promise((resolve, reject) => {
@@ -155,13 +160,19 @@ export const fetchGalleryImages = async () => {
   }
 };
 
-export const deleteGalleryImage = async (imageId) => {
+export const deleteGalleryImage = async (id) => {
   try {
-    const response = await axios.delete(`/api/gallery/delete-image/${imageId}`);
-    return response.data;
+    const response = await axios.delete(`/api/delete-image/${id}`);
+    if (response.status === 200) {
+      console.log('Image deleted successfully');
+    } else {
+      console.error('Error deleting image:', response);
+    }
   } catch (error) {
-    console.error('Error deleting image:', error);
-    throw error;
+    console.error('Failed to delete image:', error);
   }
 };
+
+
+
 

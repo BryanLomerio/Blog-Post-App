@@ -61,7 +61,7 @@ router.get('/gallery-images', async (req, res) => {
 
 router.delete('/delete-image/:id', async (req, res) => {
   const { id } = req.params;
-
+  
   try {
     const query = 'DELETE FROM gallery_images WHERE id = ?';
     const [result] = await db.execute(query, [id]);
@@ -72,8 +72,8 @@ router.delete('/delete-image/:id', async (req, res) => {
 
     res.json({ message: 'Image deleted successfully' });
   } catch (error) {
-    console.error('Error deleting image:', error);
-    res.status(500).json({ message: 'Failed to delete image' });
+    console.error('Error deleting image:', error.message || error.stack);
+    res.status(500).json({ message: 'Failed to delete image', error: error.message || error.stack });
   }
 });
 

@@ -51,7 +51,6 @@ function BlogPostDetail() {
           className="w-full max-h-96 object-cover rounded-lg mb-6"
         />
       )}
-      {/* Apply custom paragraph styles */}
       <div className="text-gray-600 text-lg leading-relaxed space-y-4">
         {post.content.split('\n').map((paragraph, index) => (
           <p key={index} className="mb-4">{paragraph}</p>
