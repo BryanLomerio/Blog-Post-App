@@ -10,7 +10,8 @@ const BlogList = () => {
   const [postsLimit] = useState(6);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
+  
+  const imageBaseURL = 'http://localhost:5000';
   const fetchBlogPosts = async () => {
     setIsLoading(true);
     try {
@@ -115,8 +116,9 @@ const BlogList = () => {
                       key={post.id}
                       className="bg-[#865D36] transform hover:scale-105 rounded-lg shadow-lg overflow-hidden transition duration-300 ease-in-out"
                     >
+                      
                       <img
-                        src={post.image_url ? `http://localhost:5000${post.image_url}` : '/path/to/default-image.jpg'}
+                        src={post.image_url ? `${imageBaseURL}${post.image_url}` : '/path/to/default-image.jpg'}
                         alt="Blog post"
                         className="w-full h-48 object-cover rounded-t-lg"
                       />
