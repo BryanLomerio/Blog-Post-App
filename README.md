@@ -1,6 +1,6 @@
 # 🎉 Blog-Post-App
 
-A simple and efficient blog post application that allows users to **CREATE**, **VIEW**, and **MANAGE** blog posts. This app is built using a **Node.js** backend with a **MySQL** database, and a frontend using **React**, **ShadCN**, and **Tailwind CSS** for a modern, responsive user interface.
+A simple and efficient blog post application that allows users to **CREATE**, **VIEW**, and **MANAGE** blog posts. This app is built using a **Node.js** backend with a **MySQL** database and a frontend using **React** and **Tailwind CSS** for a modern, responsive user interface.
 
 ---
 
@@ -15,7 +15,6 @@ A simple and efficient blog post application that allows users to **CREATE**, **
 ### Frontend
 - 🎨 **JavaScript**
 - 🎨 **React**
-- 🔺 **ShadCN**
 - 🕊 **Tailwind CSS**
 
 ---
@@ -36,7 +35,7 @@ This project follows the [Conventional Commit](https://www.conventionalcommits.o
 
 ## 🏦 Database Structure
 
-The application uses a **MySQL** database named `blog_app` and a table named `blog_posts` to store blog post data.
+The application uses a **MySQL** database named `blog_app` with tables to store blog post data, user accounts, and gallery images.
 
 ### **Database Name**: `blog_app`
 ### **Tables**:
@@ -46,7 +45,8 @@ The application uses a **MySQL** database named `blog_app` and a table named `bl
 
 ---
 
-## MySQL Schema Design
+## 🗃️ MySQL Schema Design
+
 
 ### Create Database:
 ```sql
