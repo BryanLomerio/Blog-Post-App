@@ -42,7 +42,7 @@ const Gallery = () => {
                 alt={`Gallery image ${index + 1}`}
                 className="w-full h-full object-cover rounded-lg shadow-md cursor-pointer"
                 effect="blur"
-                onClick={() => handleImageClick(image.imageUrl)} // Handle image click
+                onClick={() => handleImageClick(image.imageUrl)}
               />
             </div>
           ))

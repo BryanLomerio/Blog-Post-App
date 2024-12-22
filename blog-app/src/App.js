@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import BlogList from './admin/BlogList';
 import BlogPostForm from './admin/BlogPostForm';
-import Home from './components/Home';
+import Home from './pages/Home';
 import Header from './components/Header';
-import About from './components/About';
-import News from './components/Gallery';
+import About from './pages/About';
+import News from './pages/Gallery';
 import BlogPostDetail from './admin/BlogPostDetail';
-import Login from './components/Login'; 
-import Register from './components/Register';
+import Login from './auth/Login'; 
+import Register from './auth/Register';
 import GalleryUpload from './admin/GalleryUpload';
 
 const App = () => {
