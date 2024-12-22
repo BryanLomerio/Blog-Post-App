@@ -69,7 +69,7 @@ function Home() {
                 )}
                 <div className="p-3 relative z-10">
                   <h3 className="text-[#3E362E] font-semibold text-lg">{post.title}</h3>
-                  <p className="text-[#CDC5BD] mt-2">
+                  <p className="text-white mt-2">
                     {post.content.length > 100 ? `${post.content.slice(0, 100)}...` : post.content}
                   </p>
                   <div className="mt-4 mb-2">
