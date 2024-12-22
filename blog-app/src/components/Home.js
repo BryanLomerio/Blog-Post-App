@@ -92,7 +92,8 @@ function Home() {
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 italic">No recent blog posts available.</p>
+          <p className="text-gray-500 italic text-center mx-auto">No recent blog posts available.</p>
+
         )}
 
         <h2 className="text-2xl font-bold mt-12 mb-4 text-center">Older Blog Posts</h2>
