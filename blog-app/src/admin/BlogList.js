@@ -96,42 +96,42 @@ const BlogList = () => {
         {!isCreating && (
           <>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-3xl font-bold text-gray-800">Blog Posts</h2>
+              <h2 className="text-3xl font-bold text-white">Blog Posts</h2>
               <button
                 onClick={handleCreateNewBlog}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+                className="bg-brown-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-brown-700 hover:ring-2 hover:ring-brown-300 transition duration-300 ease-in-out"
               >
                 Create New Blog
               </button>
             </div>
 
             {isLoading ? (
-              <p className="text-center text-gray-600">Loading posts...</p>
+              <p className="text-center text-white">Loading posts...</p>
             ) : (
               <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {Array.isArray(blogPosts) &&
                   blogPosts.slice(0, postsLimit).map((post) => (
                     <li
                       key={post.id}
-                      className="bg-white rounded-lg shadow hover:shadow-lg overflow-hidden border border-gray-200 transition duration-300"
+                      className="bg-[#865D36] transform hover:scale-105 rounded-lg shadow-lg overflow-hidden transition duration-300 ease-in-out"
                     >
                       <img
                         src={post.image_url ? `http://localhost:5000${post.image_url}` : '/path/to/default-image.jpg'}
                         alt="Blog post"
-                        className="w-full h-48 object-cover"
+                        className="w-full h-48 object-cover rounded-t-lg"
                       />
-                      <div className="p-4">
-                        <h3 className="text-lg font-semibold text-gray-800">{post.title}</h3>
-                        <div className="mt-3 flex justify-between">
+                      <div className="p-6">
+                        <h3 className="text-lg font-semibold text-white mb-3">{post.title}</h3>
+                        <div className="mt-3 flex justify-between items-center">
                           <button
                             onClick={() => handleEditBlog(post)}
-                            className="bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600 transition"
+                            className="bg-brown-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-brown-600 hover:ring-2 hover:ring-brown-300 transition duration-300"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDelete(post.id)}
-                            className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition"
+                            className="bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 hover:ring-2 hover:ring-red-300 transition duration-300"
                           >
                             Delete
                           </button>
@@ -144,23 +144,22 @@ const BlogList = () => {
           </>
         )}
 
-{(isCreating || postToEdit) && (
-  <>
-    <div className="flex justify-between items-center mb-4">
-      <button
-        onClick={handleBackToAdmin}
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
-      >
-        Back to Admin
-      </button>
-      <h2 className="text-2xl font-bold text-gray-800 mx-auto">
-        {postToEdit ? 'Edit Post' : 'Create a New Blog'}
-      </h2>
-    </div>
-    <BlogPostForm postToEdit={postToEdit} onSave={handleSave} />
-  </>
-)}
-
+        {(isCreating || postToEdit) && (
+          <>
+            <div className="flex justify-between items-center mb-4">
+              <button
+                onClick={handleBackToAdmin}
+                className="bg-brown-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-brown-700 hover:ring-2 hover:ring-brown-300 transition duration-300"
+              >
+                Back to Admin
+              </button>
+              <h2 className="text-2xl font-bold text-white mx-auto">
+                {postToEdit ? 'Edit Post' : 'Create a New Blog'}
+              </h2>
+            </div>
+            <BlogPostForm postToEdit={postToEdit} onSave={handleSave} />
+          </>
+        )}
       </div>
     </div>
   );
