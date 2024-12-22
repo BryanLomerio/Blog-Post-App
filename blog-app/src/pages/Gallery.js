@@ -40,7 +40,7 @@ const Gallery = () => {
               <LazyLoadImage
                 src={image.imageUrl}
                 alt={`Gallery image ${index + 1}`}
-                className="w-full h-full object-cover rounded-lg shadow-md cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl"
+                className="w-full h-full object-cover rounded-lg shadow-md cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl"
                 effect="blur"
                 onClick={() => handleImageClick(image.imageUrl)}
               />
