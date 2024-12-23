@@ -53,7 +53,7 @@ The application uses a **MySQL** database named `blog_app` with tables to store 
 CREATE DATABASE blog_app; 
 
 Blog Post Table:
-CREATE TABLE blog_posts (
+CREATE TABLE IF NOT EXISTS blog_posts (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   content TEXT NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE blog_posts (
 
 User Accounts Table:
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(100) NOT NULL UNIQUE,
   email VARCHAR(100) NOT NULL UNIQUE,
@@ -75,7 +75,7 @@ CREATE TABLE users (
 
 Gallery Images Table:
 
-CREATE TABLE gallery_images (
+CREATE TABLE IF NOT EXISTS gallery_images (
     id INT AUTO_INCREMENT PRIMARY KEY,
     image_url VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
