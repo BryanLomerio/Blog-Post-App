@@ -3,24 +3,25 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 function BlogPostDetail() {
+  const BASE_URL = 'http://localhost:5000'; 
   const { id } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const hasFetched = useRef(false);  
+  const hasFetched = useRef(false);
 
   useEffect(() => {
-    if (!id || hasFetched.current) return;  
+    if (!id || hasFetched.current) return;
 
     const fetchPost = async () => {
       console.log('Fetching post with ID:', id);
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/blogposts/${id}`);
+        const response = await axios.get(`${BASE_URL}/api/blogposts/${id}`);
         console.log('API response:', response);
         setPost(response.data);
         setLoading(false);
-        hasFetched.current = true;  
+        hasFetched.current = true;
       } catch (err) {
         console.error('Error fetching post details:', err);
         setError('Failed to load post details. Please try again later.');
@@ -31,7 +32,7 @@ function BlogPostDetail() {
     fetchPost();
 
     hasFetched.current = false;
-  }, [id]);  
+  }, [id]);
 
   if (loading) {
     return <div className="text-center text-xl font-bold mt-10">Loading...</div>;
@@ -46,7 +47,7 @@ function BlogPostDetail() {
       <h1 className="text-3xl font-bold mb-6">{post.title}</h1>
       {post.image_url && (
         <img
-          src={`http://localhost:5000${post.image_url}`}
+          src={`${BASE_URL}${post.image_url}`}
           alt={post.title}
           className="w-full max-h-96 object-cover rounded-lg mb-6"
         />
@@ -61,7 +62,6 @@ function BlogPostDetail() {
       </p>
     </div>
   );
-  
 }
 
 export default BlogPostDetail;
