@@ -10,8 +10,9 @@ const BlogList = () => {
   const [postsLimit] = useState(6);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   const imageBaseURL = 'http://localhost:5000';
+
   const fetchBlogPosts = async () => {
     setIsLoading(true);
     try {
@@ -100,7 +101,7 @@ const BlogList = () => {
               <h2 className="text-3xl font-bold text-white">Blog Posts</h2>
               <button
                 onClick={handleCreateNewBlog}
-                className="bg-brown-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-brown-700 hover:ring-2 hover:ring-brown-300 transition duration-300 ease-in-out"
+                className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 hover:ring-2 hover:ring-blue-300 transition duration-300 ease-in-out"
               >
                 Create New Blog
               </button>
@@ -114,9 +115,8 @@ const BlogList = () => {
                   blogPosts.slice(0, postsLimit).map((post) => (
                     <li
                       key={post.id}
-                      className="bg-[#865D36] transform hover:scale-105 rounded-lg shadow-lg overflow-hidden transition duration-300 ease-in-out"
+                      className="bg-[#865D36] bg-opacity-50 transform hover:scale-105 rounded-lg shadow-lg overflow-hidden transition duration-300 ease-in-out"
                     >
-                      
                       <img
                         src={post.image_url ? `${imageBaseURL}${post.image_url}` : '/path/to/default-image.jpg'}
                         alt="Blog post"
@@ -127,7 +127,7 @@ const BlogList = () => {
                         <div className="mt-3 flex justify-between items-center">
                           <button
                             onClick={() => handleEditBlog(post)}
-                            className="bg-brown-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-brown-600 hover:ring-2 hover:ring-brown-300 transition duration-300"
+                            className="bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 hover:ring-2 hover:ring-green-300 transition duration-300"
                           >
                             Edit
                           </button>
@@ -151,7 +151,7 @@ const BlogList = () => {
             <div className="flex justify-between items-center mb-4">
               <button
                 onClick={handleBackToAdmin}
-                className="bg-brown-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-brown-700 hover:ring-2 hover:ring-brown-300 transition duration-300"
+                className="bg-gray-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-gray-700 hover:ring-2 hover:ring-gray-300 transition duration-300"
               >
                 Back to Admin
               </button>
