@@ -19,46 +19,46 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
+    <div className="flex justify-center items-center min-h-screen bg-[#865D36] bg-opacity-50">
+      <div className="w-full max-w-md px-4 py-8 bg-white rounded-lg shadow-lg">
+        <h2 className="text-3xl font-bold mb-6 text-center text-[#3E362E]">Create an Account</h2>
         <form onSubmit={handleRegister}>
-          <div className="mb-4">
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
+          <div className="mb-6">
+            <label htmlFor="username" className="block text-sm font-medium text-[#3E362E]">Username</label>
             <input
               type="text"
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full mt-2 px-4 py-3 border border-[#A69080] rounded-md focus:outline-none focus:ring-2 focus:ring-[#3E362E]"
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+          <div className="mb-6">
+            <label htmlFor="email" className="block text-sm font-medium text-[#3E362E]">Email</label>
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full mt-2 px-4 py-3 border border-[#A69080] rounded-md focus:outline-none focus:ring-2 focus:ring-[#3E362E]"
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+          <div className="mb-6">
+            <label htmlFor="password" className="block text-sm font-medium text-[#3E362E]">Password</label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full mt-2 px-4 py-3 border border-[#A69080] rounded-md focus:outline-none focus:ring-2 focus:ring-[#3E362E]"
             />
           </div>
           <button
             type="submit"
-            className="w-full py-2 mt-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full py-3 mt-4 bg-[#A69080] text-white font-semibold rounded-md hover:bg-[#3E362E] transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#3E362E]"
           >
             Register
           </button>
@@ -70,7 +70,7 @@ const Register = () => {
         <div className="mt-6 text-center">
           <p className="text-sm">
             Already have an account?{' '}
-            <a href="/login" className="text-blue-600 hover:text-blue-800">
+            <a href="/login" className="text-[#A69080] hover:text-[#3E362E]">
               Login here
             </a>
           </p>
