@@ -120,14 +120,13 @@ export const getGalleryImages = async () => {
 
     return response.data.map(image => ({
       ...image,
-      imageUrl: `http://localhost:5000/${image.image_url.replace(/\\/g, '/').replace('uploads/', 'uploads/')}`
+      imageUrl: `http://localhost:5000/uploads/${image.image_url.replace(/\\/g, '/')}`,
     }));
   } catch (error) {
     console.error('Error fetching gallery images:', error);
     throw new Error('Failed to fetch gallery images');
   }
 };
-;
 
 
 
