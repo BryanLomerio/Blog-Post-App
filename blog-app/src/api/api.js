@@ -116,8 +116,6 @@ export const uploadImagesToGallery = async (images) => {
 export const getGalleryImages = async () => {
   try {
     const response = await axios.get(`${GALLERY_API_URL}/gallery-images`);
-    console.log('Gallery images fetched:', response.data);
-
     return response.data.map(image => ({
       ...image,
       imageUrl: `http://localhost:5000/uploads/${image.image_url.replace(/\\/g, '/')}`,
@@ -151,7 +149,6 @@ const convertToBase64 = (arrayBuffer) => {
 export const fetchGalleryImages = async () => {
   try {
     const response = await axios.get('/api/gallery-images');
-    console.log('Gallery images fetched:', response.data);
     return response.data; 
   } catch (error) {
     console.error('Error fetching gallery images:', error.message);

@@ -8,7 +8,14 @@ function Home() {
   const [olderPosts, setOlderPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  useEffect(() => {
+    // Log a styled message in the console
+    console.log(
+      '%cFollow mmy Github: BryanLomerio',
+      'font-size: 36px; color: white; background: linear-gradient(to right, #ff7f50, #ff1493); font-weight: bold; padding: 10px; border-radius: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);'
+    );
+  }, []);
+  
   useEffect(() => {
     const fetchBlogPosts = async () => {
       try {

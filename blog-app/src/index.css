@@ -11,12 +11,28 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #AC8968;
   color: #3E362E;
-  overflow: hidden; 
   height: 100%; 
+  overflow-x: hidden;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* In your CSS file (e.g., App.css or Gallery.css) */
+
+@keyframes rotate {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-rotate {
+  display: flex;
+  animation: rotate 20s linear infinite;
 }
 
 /* Floating effect */
@@ -93,3 +109,45 @@ code {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.3);
 }
+/* .circular-gallery {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  animation: rotateAnimation 10s linear infinite;
+}
+
+@keyframes rotateAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.gallery-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+
+
+@keyframes circular-motion {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-circular-motion {
+  animation: circular-motion 1000s linear infinite; 
+}
+ */
+
+ /* Styles for Tinder swipe effect */
